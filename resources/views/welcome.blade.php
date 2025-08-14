@@ -8,15 +8,15 @@
     <!-- Slide 1 -->
     <div data-hero-slide
          class="absolute inset-0 bg-cover bg-center opacity-100 transition-opacity duration-700 ease-in-out"
-         style="background-image:url('https://itfuna.site/img/img.jpg');"></div>
+         style="background-image:url('https://itfuna.test/img/img.jpg');"></div>
     <!-- Slide 2 -->
     <div data-hero-slide
          class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-700 ease-in-out"
-         style="background-image:url('https://itfuna.site/img/img2.jpg');"></div>
+         style="background-image:url('https://itfuna.test/img/img2.jpg');"></div>
     <!-- Slide 3 -->
     <div data-hero-slide
          class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-700 ease-in-out"
-         style="background-image:url('https://itfuna.site/img/img3.jpg');"></div>
+         style="background-image:url('https://itfuna.test/img/img3.jpg');"></div>
   </div>
 
   <!-- Voile sombre -->
@@ -219,7 +219,7 @@
 
         <!-- Image -->
         <img
-          src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1000&q=80"
+          src="https://itfuna.test/img/img4.png"
           alt="Étudiante en bibliothèque"
           class="w-full max-w-md lg:max-w-lg mx-auto rounded-3xl shadow-xl object-cover"
         />

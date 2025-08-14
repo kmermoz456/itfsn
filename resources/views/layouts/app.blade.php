@@ -8,6 +8,11 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js" defer></script>
 
+<!-- Markdown parser + sanitize -->
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+
+
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <title>Intellect Tronc SN Formation</title>

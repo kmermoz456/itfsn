@@ -144,3 +144,115 @@ import './bootstrap';
       revealer.observe(card);
     });
   })();
+
+  document.addEventListener('alpine:init', () => {
+  Alpine.data('mdEditor', ({ initial = '', uploadUrl = '', csrf = '' }) => ({
+    tab: 'write',
+    content: initial,
+    previewHtml: '',
+    slugLocked: false,
+
+    init(){
+      // réglages Marked (facultatif)
+      if (window.marked) {
+        marked.setOptions({ breaks: true, gfm: true });
+      }
+    },
+
+    // Helpers sélection
+    _sel(){
+      const ta = this.$refs.ta;
+      return { ta, start: ta.selectionStart, end: ta.selectionEnd, val: ta.value };
+    },
+
+    wrap(open, close){
+      const { ta, start, end, val } = this._sel();
+      const before = val.slice(0, start), sel = val.slice(start, end), after = val.slice(end);
+      const newVal = `${before}${open}${sel || 'texte'}${close}${after}`;
+      this.content = newVal;
+      this.$nextTick(() => { ta.focus(); ta.selectionStart = start + open.length; ta.selectionEnd = end + open.length + (sel ? 0 : 'texte'.length); });
+    },
+
+    heading(level=2){
+      const { ta, start, end, val } = this._sel();
+      const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+      const prefix = '#'.repeat(level) + ' ';
+      const newVal = val.slice(0, lineStart) + prefix + val.slice(lineStart);
+      this.content = newVal;
+      this.$nextTick(() => { ta.focus(); ta.selectionStart = ta.selectionEnd = start + prefix.length; });
+    },
+
+    list(bullet='- '){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'élément';
+      const lines = sel.split('\n').map(l => (l ? bullet + l : bullet + 'élément')).join('\n');
+      this.content = val.slice(0, start) + lines + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+
+    olist(){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'élément';
+      let i = 1;
+      const lines = sel.split('\n').map(l => `${i++}. ${l || 'élément'}`).join('\n');
+      this.content = val.slice(0, start) + lines + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+
+    quote(){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'citation';
+      const lines = sel.split('\n').map(l => `> ${l || 'citation'}`).join('\n');
+      this.content = val.slice(0, start) + lines + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+
+    codeBlock(){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'console.log("Hello")';
+      const block = `\n\`\`\`js\n${sel}\n\`\`\`\n`;
+      this.content = val.slice(0, start) + block + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+
+    link(){
+      const url = prompt('URL du lien :', 'https://');
+      if (!url) return;
+      this.wrap('[', `](${url})`);
+    },
+
+    // Preview
+    render(){
+      const raw = (window.marked ? marked.parse(this.content || '') : this.content);
+      this.previewHtml = window.DOMPurify ? DOMPurify.sanitize(raw) : raw;
+    },
+
+    charCount(){ return (this.content || '').length; },
+
+    // Upload d’image (drag & drop + input file)
+    async dropUpload(e){
+      const file = [...e.dataTransfer.files][0];
+      if (file) await this._upload(file);
+    },
+    async uploadFromInput(e){
+      const file = e.target.files[0];
+      if (file) await this._upload(file);
+      e.target.value = '';
+    },
+    async _upload(file){
+      if (!this.uploadUrl) return alert('Route upload non configurée.');
+      const fd = new FormData();
+      fd.append('image', file);
+      fd.append('_token', this.csrf);
+      const res = await fetch(this.uploadUrl, { method:'POST', body: fd });
+      if (!res.ok) return alert('Upload échoué.');
+      const data = await res.json();
+      if (data?.url){
+        const md = `![image](${data.url})`;
+        const { ta, start, end, val } = this._sel();
+        this.content = val.slice(0,start) + md + val.slice(end);
+        this.$nextTick(() => ta.focus());
+      }
+    },
+  }));
+});

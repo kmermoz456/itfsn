@@ -14,10 +14,11 @@
     <div>
       <h3 class="text-xl font-semibold text-green-300 mb-4">Liens utiles</h3>
       <ul class="space-y-2">
-        <li><a href="#" class="hover:text-green-300 transition">Accueil</a></li>
-        <li><a href="#" class="hover:text-green-300 transition">Formations</a></li>
-        <li><a href="#" class="hover:text-green-300 transition">À propos</a></li>
-        <li><a href="#" class="hover:text-green-300 transition">Contact</a></li>
+         <li><a href="{{route('cours')}}" class="">Nos Cours</a></li>
+         <li><a href="{{route('temoi')}}" class="">Témoignages</a></li>
+        <li><a href="{{route('blog')}}" class="">Actualités</a></li>
+        <li><a href="{{route('itf')}}" class="">À propos de nous</a></li>
+        <li><a href="{{route('contact')}}" class="">Contact</a></li>
       </ul>
     </div>
     
