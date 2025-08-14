@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+
+.nav-link{
+    @apply relative font-semibold text-gray-900 hover:text-emerald-600 transition;
+  }
+  .nav-link::after{
+    content:""; @apply absolute left-0 -bottom-1 h-0.5 w-0 bg-emerald-500 transition-all duration-300;
+  }
+  .nav-link:hover::after{ @apply w-full; }
+  .mobile-link{ @apply block px-4 py-3 font-medium text-gray-800 hover:bg-gray-50 hover:text-emerald-600 transition; }
+  /* lien actif (ajoute .is-active en JS si besoin) */
+  .is-active{ @apply text-emerald-600; }
+  .is-active::after{ width: 100%; }
