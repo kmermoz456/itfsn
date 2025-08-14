@@ -30,7 +30,7 @@
       <!-- Sous-onglets S1/S2 -->
       <div role="tablist" class="flex flex-wrap justify-center gap-2 mb-8">
         <button role="tab" aria-selected="true" data-subtab="l1-s1"
-                class="subtab rounded-lg px-4 py-2 text-sm font-semibold bg-emerald-500 text-black hover:bg-emerald-400">
+                class="subtab rounded-lg px-4 py-2 text-sm font-semibold bg-emerald-300 text-black hover:bg-emerald-400">
           Semestre 1
         </button>
         <button role="tab" aria-selected="false" data-subtab="l1-s2"
