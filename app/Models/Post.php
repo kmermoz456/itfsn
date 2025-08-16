@@ -13,4 +13,9 @@ class Post extends Model {
       if (empty($post->slug)) $post->slug = Str::slug($post->title) . '-' . Str::random(5);
     });
   }
+
+  
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 }

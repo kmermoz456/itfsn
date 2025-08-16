@@ -84,16 +84,16 @@
     <!-- Chiffres clés (placeholders à ajuster) -->
     <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="rounded-2xl bg-white p-5 shadow-sm text-center ring-1 ring-gray-100">
-        <div class="text-2xl font-extrabold text-gray-900">+100</div>
+        <div class="text-2xl font-extrabold text-gray-900">+180</div>
         <div class="text-xs text-gray-500">Étudiants accompagnés</div>
       </div>
       <div class="rounded-2xl bg-white p-5 shadow-sm text-center ring-1 ring-gray-100">
         <div class="text-2xl font-extrabold text-gray-900">L1–L2</div>
-        <div class="text-xs text-gray-500">Focus Sciences Nat.</div>
+        <div class="text-xs text-gray-500">Focus Sciences de la Nature.</div>
       </div>
       <div class="rounded-2xl bg-white p-5 shadow-sm text-center ring-1 ring-gray-100">
         <div class="text-2xl font-extrabold text-gray-900">+20</div>
-        <div class="text-xs text-gray-500">Tuteurs M2 → Doctorat</div>
+        <div class="text-xs text-gray-500">enseignants de niveaux M2 → Doctorat</div>
       </div>
       <div class="rounded-2xl bg-white p-5 shadow-sm text-center ring-1 ring-gray-100">
         <div class="text-2xl font-extrabold text-gray-900">Flexible</div>
@@ -105,7 +105,7 @@
     <div class="mt-16 overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white">
       <div class="grid grid-cols-1 md:grid-cols-3">
         <img
-          src="https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=900&q=70"
+          src="https://images.unsplash.com/photo-1645262960699-81a9a09a326c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Étudiants motivés"
           class="h-48 w-full object-cover md:h-full md:rounded-l-3xl"
         />
@@ -113,12 +113,12 @@
           <h3 class="text-2xl font-extrabold">Prêt·e à réussir avec ITF ?</h3>
           <p class="mt-2 text-white/90">Rejoignez une communauté bienveillante et exigeante, guidée par des tuteurs expérimentés.</p>
           <div class="mt-5 flex flex-col sm:flex-row gap-3">
-            <a href="#inscription"
+            <a href="{{route('students.create')}}"
                class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 shadow hover:bg-white/90 transition">
               S’inscrire maintenant
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
             </a>
-            <a href="#contact"
+            <a href="https://chat.whatsapp.com/DStI9zHPEyRIMYWRBELLR2?mode=ac_t"
                class="inline-flex items-center gap-2 rounded-xl ring-1 ring-white/50 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition">
               Parler à un conseiller
             </a>

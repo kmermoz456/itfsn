@@ -5,16 +5,17 @@ use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\StudentController as AdminStudentController;
 use App\Http\Controllers\admin\UploadController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[ViewController::class,'index'])->name('home');
 Route::get('/temoi',[ViewController::class,'temoi'])->name('temoi');
-Route::get('/contact',[ViewController::class,'contact'])->name('contact');
+
 Route::get('/itf',[ViewController::class,'itf'])->name('itf');
 Route::get('/cours',[ViewController::class,'cours'])->name('cours');
-Route::get('/blog',[ViewController::class,'blog'])->name('blog');
 Route::get('/inscription', [StudentController::class, 'index'])->name('students.create');
 Route::post('/inscription', [StudentController::class, 'create'])->name('students.store');
 
@@ -37,3 +38,7 @@ Route::middleware('admin.gate')->prefix('admin')->name('admin.')->group(function
 Route::post('/admin/uploads/image', [UploadController::class, 'image'])
     ->name('admin.upload.image');
 
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');

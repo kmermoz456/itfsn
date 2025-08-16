@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMessage;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -32,6 +34,9 @@ class StudentController extends Controller
             'ville' => ['nullable','string','max:120'],
             
          ]);
+
+          Mail::to(config('mail.from.address', 'kmermoz456@gmail.com.com'))
+            ->send(new ContactMessage($data));
 
          Student::create($data);
 

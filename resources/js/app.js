@@ -256,3 +256,74 @@ import './bootstrap';
     },
   }));
 });
+
+document.addEventListener('alpine:init', () => {
+  Alpine.data('mdEditor', ({ initial='' }) => ({
+    tab: 'write',
+    content: initial,
+    previewHtml: '',
+
+    init(){ /* rien, on calcule à la demande */ },
+    excerptCount(){ return (document.querySelector('[name=excerpt]')?.value || '').length; },
+
+    // sélection
+    _sel(){
+      const ta = this.$refs.ta;
+      return { ta, start: ta.selectionStart, end: ta.selectionEnd, val: ta.value };
+    },
+    wrap(open, close){
+      const { ta, start, end, val } = this._sel();
+      const before = val.slice(0, start), sel = val.slice(start, end), after = val.slice(end);
+      this.content = `${before}${open}${sel || 'texte'}${close}${after}`;
+      this.$nextTick(() => { ta.focus(); ta.selectionStart = start + open.length; ta.selectionEnd = end + open.length + (sel ? 0 : 'texte'.length); });
+    },
+    heading(level=2){
+      const { ta, start, val } = this._sel();
+      const lineStart = val.lastIndexOf("\n", start - 1) + 1;
+      const prefix = '#'.repeat(level) + ' ';
+      this.content = val.slice(0, lineStart) + prefix + val.slice(lineStart);
+      this.$nextTick(() => { ta.focus(); ta.selectionStart = ta.selectionEnd = start + prefix.length; });
+    },
+    list(bullet='- '){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'élément';
+      const lines = sel.split('\n').map(l => (l ? bullet + l : bullet + 'élément')).join('\n');
+      this.content = val.slice(0, start) + lines + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+    olist(){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'élément';
+      let i = 1;
+      const lines = sel.split('\n').map(l => `${i++}. ${l || 'élément'}`).join('\n');
+      this.content = val.slice(0, start) + lines + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+    quote(){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'citation';
+      const lines = sel.split('\n').map(l => `> ${l || 'citation'}`).join('\n');
+      this.content = val.slice(0, start) + lines + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+    codeBlock(){
+      const { ta, start, end, val } = this._sel();
+      const sel = val.slice(start, end) || 'console.log("Hello")';
+      const block = `\n\`\`\`js\n${sel}\n\`\`\`\n`;
+      this.content = val.slice(0, start) + block + val.slice(end);
+      this.$nextTick(() => ta.focus());
+    },
+    link(){
+      const url = prompt('URL du lien :', 'https://');
+      if (!url) return;
+      this.wrap('[', `](${url})`);
+    },
+
+    render(){
+      const raw = window.marked ? marked.parse(this.content || '') : this.content;
+      this.previewHtml = window.DOMPurify ? DOMPurify.sanitize(raw) : raw;
+    },
+
+    format(n){ return new Intl.NumberFormat().format(n); },
+  }));
+});

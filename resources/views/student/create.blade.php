@@ -92,7 +92,7 @@
                 <input
                   name="whatsapp" value="{{ old('phone') }}" inputmode="tel" autocomplete="tel-national"
                   class="w-full rounded-2xl border border-gray-200 bg-white py-2.5 pl-10 pr-3 text-gray-900 placeholder-gray-400 shadow-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/40 transition"
-                  placeholder="+225 07 87 12 44 76"
+                  placeholder="0X XX XX XX XX"
                 />
               </div>
               @error('phone')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror

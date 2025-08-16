@@ -27,5 +27,15 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
+    })->withMiddleware(function (Middleware $middleware) {
+        // ✅ global (sur toutes les routes web)
+        $middleware->append(TrackVisit::class);
+
+        // 👉 Variante si tu préfères un alias pour l’appliquer seulement à certaines routes :
+        // $middleware->alias(['track.site' => TrackSiteVisit::class]);
+        // puis dans routes/web.php : Route::middleware('track.site')->group(function(){ ... });
     })
-    ->create();
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
+  

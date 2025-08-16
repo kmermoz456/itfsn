@@ -32,10 +32,7 @@ class ViewController extends Controller
         return view('collect');
     }
 
-     public function contact()
-    {
-        return view('contact');
-    }
+    
 
     public function blog()
     {

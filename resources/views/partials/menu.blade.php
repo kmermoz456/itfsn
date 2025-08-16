@@ -3,7 +3,7 @@
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2">
+      <a href="{{ url('/') }}" class="flex items-center gap-2">
         <img src="{{ asset('img/icon.png') }}" alt="Logo" class="w-10 object-contain">
         <span class="sr-only">Accueil</span>
       </a>
@@ -27,15 +27,105 @@
       <!-- Menu (desktop) -->
       <div class="hidden md:flex items-center gap-8">
         <ul class="flex items-center gap-6">
-          <!-- Lien avec soulignement animé -->
-          <li><a href="/" class="nav-link">Accueil</a></li>
-          <li><a href="{{route('cours')}}" class="nav-link">Nos Cours</a></li>
-          <li><a href="{{route('temoi')}}" class="nav-link">Témoignages</a></li>
-          <li><a href="{{route('blog')}}" class="nav-link">Actualités</a></li>
-          <li><a href="{{route('itf')}}" class="nav-link">À propos de nous</a></li>
-          <li><a href="{{route('contact')}}" class="nav-link">Contact</a></li>
+          <!-- Chaque lien a un état actif vert + soulignement -->
+          <li>
+            <a href="{{ url('/') }}"
+               @class([
+                 'group relative inline-flex items-center px-1 py-1.5 text-[15px] font-extrabold transition',
+                 'text-emerald-600' => request()->is('/'),
+                 'text-gray-900 hover:text-emerald-600' => !request()->is('/'),
+               ])>
+              Accueil
+              <span @class([
+                'absolute left-0 -bottom-1 h-0.5 rounded bg-emerald-500 transition-all',
+                'w-full' => request()->is('/'),
+                'w-0 group-hover:w-full' => !request()->is('/'),
+              ])></span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('cours') }}"
+               @class([
+                 'group relative inline-flex items-center px-1 py-1.5 text-[15px] font-extrabold transition',
+                 'text-emerald-600' => request()->routeIs('cours'),
+                 'text-gray-900 hover:text-emerald-600' => !request()->routeIs('cours'),
+               ])>
+              Nos Cours
+              <span @class([
+                'absolute left-0 -bottom-1 h-0.5 rounded bg-emerald-500 transition-all',
+                'w-full' => request()->routeIs('cours'),
+                'w-0 group-hover:w-full' => !request()->routeIs('cours'),
+              ])></span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('temoi') }}"
+               @class([
+                 'group relative inline-flex items-center px-1 py-1.5 text-[15px] font-extrabold transition',
+                 'text-emerald-600' => request()->routeIs('temoi'),
+                 'text-gray-900 hover:text-emerald-600' => !request()->routeIs('temoi'),
+               ])>
+              Témoignages
+              <span @class([
+                'absolute left-0 -bottom-1 h-0.5 rounded bg-emerald-500 transition-all',
+                'w-full' => request()->routeIs('temoi'),
+                'w-0 group-hover:w-full' => !request()->routeIs('temoi'),
+              ])></span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('blog.index') }}"
+               @class([
+                 'group relative inline-flex items-center px-1 py-1.5 text-[15px] font-extrabold transition',
+                 'text-emerald-600' => request()->routeIs('blog.*'),
+                 'text-gray-900 hover:text-emerald-600' => !request()->routeIs('blog.*'),
+               ])>
+              Actualités
+              <span @class([
+                'absolute left-0 -bottom-1 h-0.5 rounded bg-emerald-500 transition-all',
+                'w-full' => request()->routeIs('blog.*'),
+                'w-0 group-hover:w-full' => !request()->routeIs('blog.*'),
+              ])></span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('itf') }}"
+               @class([
+                 'group relative inline-flex items-center px-1 py-1.5 text-[15px] font-extrabold transition',
+                 'text-emerald-600' => request()->routeIs('itf'),
+                 'text-gray-900 hover:text-emerald-600' => !request()->routeIs('itf'),
+               ])>
+              À propos de nous
+              <span @class([
+                'absolute left-0 -bottom-1 h-0.5 rounded bg-emerald-500 transition-all',
+                'w-full' => request()->routeIs('itf'),
+                'w-0 group-hover:w-full' => !request()->routeIs('itf'),
+              ])></span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('contact') }}"
+               @class([
+                 'group relative inline-flex items-center px-1 py-1.5 text-[15px] font-extrabold transition',
+                 'text-emerald-600' => request()->routeIs('contact'),
+                 'text-gray-900 hover:text-emerald-600' => !request()->routeIs('contact'),
+               ])>
+              Contact
+              <span @class([
+                'absolute left-0 -bottom-1 h-0.5 rounded bg-emerald-500 transition-all',
+                'w-full' => request()->routeIs('contact'),
+                'w-0 group-hover:w-full' => !request()->routeIs('contact'),
+              ])></span>
+            </a>
+          </li>
         </ul>
-        <a href="{{route('students.create')}}"
+
+        <a href="{{ route('students.create') }}"
            class="inline-flex items-center rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-black shadow hover:bg-emerald-400 active:bg-emerald-600 transition">
           S'inscrire
         </a>
@@ -43,26 +133,65 @@
     </div>
 
     <!-- Menu (mobile) -->
-    <div id="nav-menu"
-         class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-out">
+    <div id="nav-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-out">
       <ul class="flex flex-col border-t border-gray-100 py-2">
-        <li><a href="/" class="mobile-link">Accueil</a></li>
-        <li><a href="{{route('cours')}}" class="mobile-link">Nos Cours</a></li>
-         <li><a href="{{route('temoi')}}" class="mobile-link">Témoignages</a></li>
-        <li><a href="{{route('blog')}}" class="mobile-link">Actualités</a></li>
-        <li><a href="{{route('itf')}}" class="mobile-link">À propos de nous</a></li>
-        <li><a href="{{route('contact')}}" class="mobile-link">Contact</a></li>
+        <li>
+          <a href="{{ url('/') }}"
+             @class([
+               'mobile-link block px-4 py-2 rounded-lg',
+               'text-emerald-700 bg-emerald-50 font-semibold' => request()->is('/'),
+               'text-gray-900 hover:bg-gray-50' => !request()->is('/'),
+             ])>Accueil</a>
+        </li>
+        <li>
+          <a href="{{ route('cours') }}"
+             @class([
+               'mobile-link block px-4 py-2 rounded-lg',
+               'text-emerald-700 bg-emerald-50 font-semibold' => request()->routeIs('cours'),
+               'text-gray-900 hover:bg-gray-50' => !request()->routeIs('cours'),
+             ])>Nos Cours</a>
+        </li>
+        <li>
+          <a href="{{ route('temoi') }}"
+             @class([
+               'mobile-link block px-4 py-2 rounded-lg',
+               'text-emerald-700 bg-emerald-50 font-semibold' => request()->routeIs('temoi'),
+               'text-gray-900 hover:bg-gray-50' => !request()->routeIs('temoi'),
+             ])>Témoignages</a>
+        </li>
+        <li>
+          <a href="{{ route('blog.index') }}"
+             @class([
+               'mobile-link block px-4 py-2 rounded-lg',
+               'text-emerald-700 bg-emerald-50 font-semibold' => request()->routeIs('blog.*'),
+               'text-gray-900 hover:bg-gray-50' => !request()->routeIs('blog.*'),
+             ])>Actualités</a>
+        </li>
+        <li>
+          <a href="{{ route('itf') }}"
+             @class([
+               'mobile-link block px-4 py-2 rounded-lg',
+               'text-emerald-700 bg-emerald-50 font-semibold' => request()->routeIs('itf'),
+               'text-gray-900 hover:bg-gray-50' => !request()->routeIs('itf'),
+             ])>À propos de nous</a>
+        </li>
+        <li>
+          <a href="{{ route('contact') }}"
+             @class([
+               'mobile-link block px-4 py-2 rounded-lg',
+               'text-emerald-700 bg-emerald-50 font-semibold' => request()->routeIs('contact'),
+               'text-gray-900 hover:bg-gray-50' => !request()->routeIs('contact'),
+             ])>Contact</a>
+        </li>
       </ul>
+
       <div class="px-4 pb-3">
-        <a href="{{route('students.create')}}"
-           class="block w-full text-center rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-black shadow hover:bg-emerald-400 active:bg-emerald-600 transition">
+        <a href="{{ route('students.create') }}"
+           class="block w-full text-center rounded-lg bg-green-300 px-4 py-2 text-sm font-semibold text-black shadow hover:bg-emerald-400 active:bg-emerald-600 transition">
           S'inscrire
         </a>
       </div>
     </div>
   </nav>
 </header>
-
-
-
 
