@@ -187,7 +187,7 @@
 
       <div class="px-4 pb-3">
         <a href="{{ route('students.create') }}"
-           class="block w-full text-center rounded-lg bg-green-300 px-4 py-2 text-sm font-semibold text-black shadow hover:bg-emerald-400 active:bg-emerald-600 transition">
+           class="block w-full text-center rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-black shadow hover:bg-emerald-400 active:bg-emerald-600 transition">
           S'inscrire
         </a>
       </div>

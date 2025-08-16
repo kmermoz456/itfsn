@@ -27,6 +27,4 @@
   .tab{ @apply rounded-lg border border-transparent px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-100; }
   .tab-active{ @apply bg-white text-gray-900 border-gray-200; }
 
-   .btn{ @apply rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs hover:bg-gray-100; }
-  .tab{ @apply rounded-lg border border-transparent px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-100; }
-  .tab-active{ @apply bg-white text-gray-900 border-gray-200; }
+  

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <div x-data="{open:false}" class="min-h-screen bg-gray-50">
   <!-- Topbar -->

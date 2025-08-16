@@ -8,27 +8,45 @@ use App\Models\Post;
 use App\Models\Student;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Base (exclut les bots si la colonne existe)
+        // Base (exclut les bots si tu as une colonne is_bot)
         $base = Visit::query();
         if (Schema::hasColumn('visits', 'is_bot')) {
             $base->where('is_bot', false);
         }
 
+        // Adapte les expressions SQL au SGBD (pgsql vs mysql)
+        $driver   = DB::connection()->getDriverName();
+        $dateExpr = $driver === 'pgsql' ? "CAST(visited_at AS DATE)" : "DATE(visited_at)";
+        $fpExpr   = $driver === 'pgsql'
+            ? "(ip || ':' || COALESCE(user_agent,''))"
+            : "CONCAT(ip, ':', COALESCE(user_agent,''))"; // fingerprint visiteur = IP+UA
+
         $today       = Carbon::today();
         $startOfWeek = $today->copy()->startOfWeek();
         $endOfWeek   = $today->copy()->endOfWeek();
 
-        // ===== Visiteurs (IP uniques) =====
-        $uniqueTotal = (clone $base)->distinct('ip')->count('ip');
-        $uniqueToday = (clone $base)->whereDate('visited_at', $today)->distinct('ip')->count('ip');
-        $uniqueWeek  = (clone $base)->whereBetween('visited_at', [$startOfWeek, $endOfWeek])->distinct('ip')->count('ip');
+        // ===== Visiteurs uniques (IP + UA) =====
+        $uniqueTotal = (clone $base)
+            ->selectRaw("COUNT(DISTINCT {$fpExpr}) AS c")
+            ->value('c');
 
-        // (Optionnel) Hits si tu veux encore les afficher :
+        $uniqueToday = (clone $base)
+            ->whereDate('visited_at', $today)
+            ->selectRaw("COUNT(DISTINCT {$fpExpr}) AS c")
+            ->value('c');
+
+        $uniqueWeek = (clone $base)
+            ->whereBetween('visited_at', [$startOfWeek, $endOfWeek])
+            ->selectRaw("COUNT(DISTINCT {$fpExpr}) AS c")
+            ->value('c');
+
+        // (Optionnel) si tu veux aussi afficher les "hits" (toutes entrées)
         // $totalVisits = (clone $base)->count();
         // $todayVisits = (clone $base)->whereDate('visited_at', $today)->count();
         // $weekVisits  = (clone $base)->whereBetween('visited_at', [$startOfWeek, $endOfWeek])->count();
@@ -36,10 +54,10 @@ class DashboardController extends Controller
         $postsCount    = Post::count();
         $studentsCount = Student::count();
 
-        // Série 7 jours — IP UNIQUES / jour
+        // ===== Série 7 jours — visiteurs uniques / jour =====
         $from = $today->copy()->subDays(6);
         $rows = (clone $base)
-            ->selectRaw('DATE(visited_at) as d, COUNT(DISTINCT ip) as uniques')
+            ->selectRaw("{$dateExpr} AS d, COUNT(DISTINCT {$fpExpr}) AS uniques")
             ->whereDate('visited_at', '>=', $from)
             ->groupBy('d')
             ->orderBy('d')
@@ -55,9 +73,9 @@ class DashboardController extends Controller
         }
 
         return view('admin.dashboard', compact(
-            'uniqueTotal','uniqueToday','uniqueWeek',
-            'postsCount','studentsCount','series'
-            // , 'totalVisits','todayVisits','weekVisits' // si tu veux les hits
+            'uniqueTotal', 'uniqueToday', 'uniqueWeek',
+            'postsCount', 'studentsCount', 'series'
+            // , 'totalVisits', 'todayVisits', 'weekVisits' // si tu veux afficher les hits
         ));
     }
 }

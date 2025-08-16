@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\admin\AuthController;
-use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\PostController;
-use App\Http\Controllers\admin\StudentController as AdminStudentController;
-use App\Http\Controllers\admin\UploadController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\StudentController as AdminStudentController;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StudentController;
@@ -16,8 +16,11 @@ Route::get('/temoi',[ViewController::class,'temoi'])->name('temoi');
 
 Route::get('/itf',[ViewController::class,'itf'])->name('itf');
 Route::get('/cours',[ViewController::class,'cours'])->name('cours');
-Route::get('/inscription', [StudentController::class, 'index'])->name('students.create');
-Route::post('/inscription', [StudentController::class, 'create'])->name('students.store');
+
+
+
+Route::get('/inscription', [StudentController::class, 'create'])->name('students.create');
+Route::post('/inscription', [StudentController::class, 'store'])->name('students.store');
 
 
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login.form');

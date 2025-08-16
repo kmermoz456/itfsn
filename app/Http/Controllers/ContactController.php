@@ -30,7 +30,7 @@ class ContactController extends Controller
             'message' => ['required','string','max:5000'],
         ]);
 
-        Mail::to(config('mail.from.address', 'admin@example.com'))
+        Mail::to(config('mail.from.address', 'kmermoz456@gmail.com.com'))
             ->send(new ContactMessage($data));
 
         return redirect()->route('contact')->with('ok', 'Merci ! Votre message a bien été envoyé.');
